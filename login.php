@@ -64,7 +64,7 @@ if(isset($_POST['login']))
 <body>
 <h1>ログイン</h1>
 <form name="login" method="post">
-        <p>email</p><input type="text" name="email">
+        <p>email</p><input type="email" name="email">
         <p>pass</p><input type="password" name="password">
         <input type="submit" name='login'>
 </form>
