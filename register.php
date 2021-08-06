@@ -40,15 +40,18 @@ if(isset($_POST['register']))
             'first_name' => $fname,  
             'last_name' =>  $lname
         ];
-        if(Sentinel::validForCreation($credentials))
-        {
-            $regerror=2;
-        }
-        else
+        
+        try
         {
             $user = Sentinel::registerAndActivate($credentials);
             Sentinel::loginAndRemember($user);
             header("location:/matching");
+            
+        }
+        catch(Exception $e)
+        {
+            echo($e);
+            $regerror=2;
         }
     }
 }
