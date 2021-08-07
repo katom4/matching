@@ -1,3 +1,5 @@
+//クラスごとのチャットが初期画面
+
 <?php
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
