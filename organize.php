@@ -24,13 +24,7 @@ $capsule->bootEloquent();
 
 function organize()
 {
-    
-}
-    
-
-    if(isset($_POST['org']))
-    {
-        $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         $sth = $pdo ->prepare("SELECT count(id) AS num FROM profile");
         $sth -> execute();
         
@@ -52,10 +46,16 @@ function organize()
         shuffle($classes);
         foreach($classes as $num => $row)
         {
-            $sth = $pdo ->prepare("UPDATE profile set classid=:classid where id = $num");
+            $sth = $pdo ->prepare("UPDATE profile set classid=:classid where id = $num");//classidのアップデート
             $sth -> bindValue(":classid",$classes[$num],PDO::PARAM_INT);
             $sth->execute();
         }
+}
+    
+
+    if(isset($_POST['org']))
+    {
+        organize();
     }
 ?>
 <!DOCTYPE html>
@@ -71,7 +71,7 @@ function organize()
     if(Sentinel::getUser()->email=="kanri@kanri.com"){
     ?>
     <form method ="post">
-        <input type="submit" name="org">
+        <input type="submit" name="org" value="クラス編成">
     </form>
     <?php } ?>
 </body>

@@ -43,8 +43,7 @@ if(isset($_POST['register']))
         
         try
         {
-            $user = Sentinel::registerAndActivate($credentials);
-            Sentinel::loginAndRemember($user);
+            $user = Sentinel::registerAndActivate($credentials);//登録してactibeにしている
             header("location:/matching");
             
         }
