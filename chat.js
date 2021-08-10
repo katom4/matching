@@ -9,9 +9,9 @@ conn.onmessage = function(e) {
   count+=1;//一回目に送られてきたclassidと今のアカウントのclassidを比較している
   //classidはindex.phpで定義している
   
-  if(count==1&&int(classid)===int(e.data))
+  
+  if(count==1&&classid===e.data)
   {
-    　
       onclass=true;
   }
   if(count==2)
