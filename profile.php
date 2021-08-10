@@ -94,6 +94,7 @@ if(isset($_POST['submit']))
 <body>
     <h1>profile</h1>
     <a href="/matching/index.php?logout=true">ログアウト</a>
+    <a href="/matching">トップページに戻る</a>
     <h3>自分のプロフィールを入力してください</h3>
     <p>＊＊教科の欄は自分の能力を5段階で評価してください＊＊</p>
     <form method="post" autocomplete="off" class="toprofile">

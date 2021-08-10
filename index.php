@@ -95,8 +95,9 @@ if(Sentinel::getUser()->email=="kanri@kanri.com")
 
 //jsにclassidの値を渡す（チャットをクラスごとに同期するようにするため）
 $classid=getProfile('classid');
-echo("classid1:{$classid}");
 $nickname=getProfile('nickname');
+
+echo("classid:{$classid}");
 ?>
 
 
