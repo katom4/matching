@@ -74,5 +74,8 @@ function organize()
         <input type="submit" name="org" value="クラス編成">
     </form>
     <?php } ?>
+    <p></p>
+    <p></p>
+    <a href="/matching">トップに戻る</a>
 </body>
 </html>

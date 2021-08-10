@@ -47,6 +47,18 @@ else
     header("location:/matching/login.php");
 }
 
+//Profileの要素を取得する関数
+function getProfile($e)
+{
+    $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $sth = $pdo->prepare("SELECT * from profile where id = :id");//classidの取得
+    $sth ->bindValue(":id",Sentinel::getUser()->id ,PDO::PARAM_INT);
+    $sth->execute();
+    $infos = $sth->fetch();
+    return $infos[$e];
+}
+
+
 //classidが消えたとき（classidといちいち持ってくるのが面倒なためsessionに入れている)
 if(!isset($_SESSION['classid'])||!isset($_SESSION['nickname']))
 {
@@ -63,20 +75,28 @@ if(!isset($_SESSION['classid'])||!isset($_SESSION['nickname']))
 if(isset($_POST["submit"]))
 {
     $userid = Sentinel::getUser()->id;//今のuserid取得
-    $classid = $_SESSION['classid'];
+    $classid = getProfile('classid');;
     $text = $_POST['text'];
     $sth=$pdo -> prepare("INSERT into chat(text,userid,classid) value(:text,:userid,:classid)");
     $sth ->bindValue(":text",$text,PDO::PARAM_STR);
     $sth ->bindValue(":userid",$userid,PDO::PARAM_INT);
     $sth ->bindValue(":classid",$classid,PDO::PARAM_INT);
     $sth->execute();
-    header("location:/matchingのコピー");
+    header("location:/matching");
+    
     
 }
 
+//権限者のクラス編成用のページリンクを表示
+if(Sentinel::getUser()->email=="kanri@kanri.com")
+{
+    echo('<a href="/matching/organize.php">クラス編成</a>');
+}
+
 //jsにclassidの値を渡す（チャットをクラスごとに同期するようにするため）
-$classid=$_SESSION['classid'];
-$nickname=$_SESSION['nickname'];
+$classid=getProfile('classid');
+echo("classid1:{$classid}");
+$nickname=getProfile('nickname');
 ?>
 
 
@@ -97,7 +117,9 @@ var classid='<?php echo $classid; ?>';
 </head>
 <body>
     <h1>index.php</h1>
-    <a href="/matching/index.php?logout=true">ログアウト</a>
+    <p><a href="/matching/index.php?logout=true">ログアウト</a></p>
+    <p><a href="/matching/profile.php">プロフィール</a></p>
+
     <form method="post">
         <input type="text" name="text" id="text">
         <input type="submit" name="submit" onclick="OnButtonClick()"/>
@@ -108,9 +130,11 @@ var classid='<?php echo $classid; ?>';
     <div id="chat">
         <?php
             //チャットの表示部分
+            $classid=getProfile('classid');
+            echo("classid:{$classid}");
             $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
             $sth = $pdo->prepare("SELECT * from chat where classid = :classid order by chatid desc");
-            $sth ->bindValue(":classid",$_SESSION['classid'],PDO::PARAM_STR);
+            $sth ->bindValue(":classid",$classid,PDO::PARAM_STR);
             $sth->execute();
             foreach($sth as $row)
             {
