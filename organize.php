@@ -20,7 +20,10 @@ $capsule->addConnection([
 
 $capsule->bootEloquent();
 
-
+if(Sentinel::getUser()->email!="kanri@kanri.com")
+{
+    header("location:/matching");
+}
 
 function organize()
 {
@@ -67,13 +70,9 @@ function organize()
     <title>Document</title>
 </head>
 <body>
-    <?php
-    if(Sentinel::getUser()->email=="kanri@kanri.com"){
-    ?>
     <form method ="post">
         <input type="submit" name="org" value="クラス編成">
     </form>
-    <?php } ?>
     <p></p>
     <p></p>
     <a href="/matching">トップに戻る</a>

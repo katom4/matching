@@ -35,12 +35,6 @@ if(isset($_GET['logout']))
 if ($user = Sentinel::getUser())
 {
     echo("<p>現在のユーザーid : {$user->id}</p>");
-    $sth = $pdo->prepare("SELECT classid,nickname from profile where id = :id");//classidの取得
-    $sth ->bindValue(":id", Sentinel::getUser()->id,PDO::PARAM_INT);
-    $sth->execute();
-    $infos = $sth->fetch();
-    $_SESSION['classid']=$infos['classid'];
-    $_SESSION['nickname']=$infos['nickname'];
 }
 else
 {
@@ -59,17 +53,6 @@ function getProfile($e)
 }
 
 
-//classidが消えたとき（classidといちいち持ってくるのが面倒なためsessionに入れている)
-if(!isset($_SESSION['classid'])||!isset($_SESSION['nickname']))
-{
-    $sth = $pdo->prepare("SELECT classid,nickname from profile where id = :id");//classidの取得
-    $sth ->bindValue(":id", Sentinel::getUser()->id,PDO::PARAM_INT);
-    $sth->execute();
-    $infos = $sth->fetch();
-    $_SESSION['classid']=$infos['classid'];
-    $_SESSION['nickname']=$infos['nickname'];
-
-}
 
 //チャット送信時の処理
 if(isset($_POST["submit"]))
