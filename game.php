@@ -16,7 +16,11 @@ if(isset($_POST["gamesubmit"]))
     $sth->execute();
     header("location:/matching/game.php");
 }
+$filename='game';
 ?>
+<script type="text/javascript">
+    var filename='<?php echo $filename ?>';
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>

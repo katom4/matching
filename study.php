@@ -1,7 +1,7 @@
 <?php 
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
-include('base.php') ;
+include('base.php');
 include('sentinelconfig.php');
 if(isset($_POST["studysubmit"]))
 {
@@ -15,8 +15,13 @@ if(isset($_POST["studysubmit"]))
     $sth ->bindValue(":classid",$classid,PDO::PARAM_INT);
     $sth->execute();
     header("location:/matching/study.php");
+    
 }
+$filename='study';
 ?>
+<script type="text/javascript">
+    var filename='<?php echo $filename ?>';
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>

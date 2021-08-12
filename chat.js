@@ -8,13 +8,22 @@ var nickname;
 conn.onmessage = function(e) {
   count+=1;//一回目に送られてきたclassidと今のアカウントのclassidを比較している
   //classidはindex.phpで定義している
-  
-  
-  if(count==1&&classid===e.data)
+  if(count==1)
+  {
+    if(e.data==filename)
+    {
+      
+    }
+    else
+    {
+      count=-2;
+    }
+  }
+  if(count==2&&classid===e.data)
   {
       onclass=true;
   }
-  if(count==2)
+  if(count==3)
   {
     if(onclass==true)
     {
@@ -32,12 +41,16 @@ conn.onmessage = function(e) {
 function link(){
   location.href='/matching';
 }
+ 
+
 
 function OnButtonClick(){
+  
   text = document.getElementById("text").value;//inputのtextの要素を取得
   if(text != "")//textの中身チェック
   {
     console.log(text);
+    conn.send(filename);
     conn.send(classid);
     conn.send(text);//同期する
   }

@@ -1,4 +1,5 @@
 <?php
+//ログイン処理をとかをまとめたやつ
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 include('sentinelconfig.php');
@@ -53,8 +54,6 @@ if(isset($_POST["submit"]))
     $sth ->bindValue(":classid",$classid,PDO::PARAM_INT);
     $sth->execute();
     header("location:/matching");
-    
-    
 }
 
 //権限者のクラス編成用のページリンクを表示
@@ -98,7 +97,7 @@ var classid='<?php echo $classid; ?>';
         
     </script>
     -->
-    <div id="chat">
+    
         <?php
             /*//チャットの表示部分
             $classid=getProfile('classid');
@@ -117,7 +116,6 @@ var classid='<?php echo $classid; ?>';
                 echo("<h3 class='chatchild'>{$row['text']}</h3>");
             }*/
         ?>
-    </div>
 </body>
 </html>
 

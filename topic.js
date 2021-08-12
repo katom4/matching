@@ -6,7 +6,7 @@ var onclass = new Boolean(false);
 var count=0;
 var nickname;
 conn.onmessage = function(e) {
-  /*count+=1;//一回目に送られてきたclassidと今のアカウントのclassidを比較している
+  count+=1;//一回目に送られてきたclassidと今のアカウントのclassidを比較している
   //classidはindex.phpで定義している
   
   if(count==1&&classid===e.data)
@@ -23,13 +23,13 @@ conn.onmessage = function(e) {
       onclass=false;
     }
     count=0;
-  }*/
+  }
   
   //送信されるごとにリダイレクトされるやつ、動作確認済み
-  setTimeout('link()', 0);
+  //setTimeout('link()', 0);
 };
 function link(){
-  location.href='/matching';
+  location.href='/matching/topic';
 }
 
 function OnButtonClick(){

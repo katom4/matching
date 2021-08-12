@@ -1,4 +1,6 @@
 <?php 
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
+use Illuminate\Database\Capsule\Manager as Capsule;
 include('base.php') ;
 include('sentinelconfig.php');
 if(isset($_POST["chatsubmit"]))
@@ -14,8 +16,14 @@ if(isset($_POST["chatsubmit"]))
     $sth->execute();
     header("location:/matching/chat.php");
 }
+$filename='chat';
 ?>
+<script type="text/javascript">
+    var filename='<?php echo $filename ?>';
+</script>
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,7 +45,6 @@ if(isset($_POST["chatsubmit"]))
         <?php
             //チャットの表示部分
             $classid=getProfile('classid');
-            echo("classid:{$classid}");
             $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
             $sth = $pdo->prepare("SELECT * from chat where classid = :classid order by id desc");
             $sth ->bindValue(":classid",$classid,PDO::PARAM_STR);
