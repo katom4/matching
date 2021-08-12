@@ -47,7 +47,6 @@ $filename='topic';
         <?php
             //チャットの表示部分
             $classid=getProfile('classid');
-            echo("classid:{$classid}");
             $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
             $sth = $pdo->prepare("SELECT * from topic where classid = :classid order by id desc");
             $sth ->bindValue(":classid",$classid,PDO::PARAM_STR);
