@@ -44,6 +44,12 @@ if(isset($_POST['register']))
         try
         {
             $user = Sentinel::registerAndActivate($credentials);//登録してactibeにしている
+            Sentinel::loginAndRemember($user);
+            $userid = Sentinel::getUser()->id;
+            $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $sth = $pdo->prepare("INSERT into profile(id) values(:id)");
+            $sth->bindValue(":id",$userid,PDO::PARAM_INT);
+            $sth -> execute();
             header("location:/matching");
             
         }
