@@ -4,6 +4,8 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 // Include the composer autoload file
 require 'vendor/autoload.php';
 
+$pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
 // Setup a new Eloquent Capsule instance
 $capsule = new Capsule;
 
@@ -59,8 +61,36 @@ function organize()
     if(isset($_POST['org']))
     {
         organize();
+        //classlogに追加
+        $xxx = $pdo->prepare("SELECT id,classid FROM profile order by id");
+        $xxx->execute();
+        $yyy = $pdo->prepare("SELECT season FROM classlog");
+        $yyy->execute();
+        $season=0;
+        foreach($yyy as $row){
+            if($season<=$row['season']){
+                $season=$row['season']+1;
+            }
+        }
+        foreach($xxx as $row){
+            $sth = $pdo->prepare("INSERT INTO classlog(userid,season,classid) values(:userid,:season,:classid)");
+            $sth->bindValue(":userid",$row['id'],PDO::PARAM_STR);
+            $sth->bindValue(":season",$season,PDO::PARAM_STR);
+            $sth->bindValue(":classid",$row['classid'],PDO::PARAM_STR);
+            $sth->execute();
+        }
+        
     }
+
+if(isset($_POST['submit']))
+{
+    $text=$_POST['text'];
+    $sth = $pdo->prepare("INSERT INTO work(text) values(:text)");
+    $sth->bindValue(":text",$text,PDO::PARAM_STR);
+    $sth->execute();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,5 +106,10 @@ function organize()
     <p></p>
     <p></p>
     <a href="/matching">トップに戻る</a>
+
+    <form method="post" autocomplete="off" class="upWork">
+        <input type="text" name="text"></input>
+        <input type="submit" name="submit"></input>
+    </form>
 </body>
 </html>
