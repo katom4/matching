@@ -51,7 +51,8 @@ function organize()
         shuffle($classes);
         foreach($classes as $num => $row)
         {
-            $sth = $pdo ->prepare("UPDATE profile set classid=:classid where id = $num");//classidのアップデート
+            $sth = $pdo ->prepare("UPDATE profile set classid=:classid where id = $num+1");//classidのアップデート
+            //idは１からの連番だが、$numは０からの連番になっているため、上で１足している
             $sth -> bindValue(":classid",$classes[$num],PDO::PARAM_INT);
             $sth->execute();
         }
