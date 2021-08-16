@@ -19,6 +19,7 @@ $capsule->addConnection([
 
 
 $capsule->bootEloquent();
+session_start();
 
 if (Sentinel::getUser())
 {
@@ -43,6 +44,7 @@ if(isset($_POST['login']))
         if(Sentinel::validateCredentials($user, $credentials))
         {
             Sentinel::loginAndRemember($user);
+            $_SESSION=array();
             header("Location:/matching");
         }
         else

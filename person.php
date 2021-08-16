@@ -28,8 +28,8 @@ $filename='person';
 ?>
 <script type="text/javascript">
     var filename='<?php echo $filename ?>';
-    var userid=<?php echo Sentinel::getUser()->id ?>;
-    var partnerid=<?php echo $_SESSION['partnerid'] ?>;
+    var userid = <?php echo Sentinel::getUser()->id ?>;
+    var partnerid = <?php echo $_SESSION['partnerid'] ?>;
 </script>
 
 <!DOCTYPE html>
@@ -46,21 +46,24 @@ $filename='person';
     <?php
     //自分のidのseasonとclassidが一致するidを調べている
     $id = Sentinel::getUser()->id;
-    $sth = $pdo->prepare("SELECT * from classlog where userid=:userid");
+    $sth = $pdo->prepare("SELECT * from classlog where userid=:userid");//まず自分のユーザーidのログをもってくる
     $sth->bindValue(":userid",$id,PDO::PARAM_INT);
     $sth->execute();
     $userArray=array();//検索する時に、同じユーザーがヒットするのを防ぐために、相手のユーザーidを配列で管理している
     foreach($sth as $row)
     {
-        $season=$row['season'];
-        $classid=$row['classid'];
-        $a = $pdo->prepare("SELECT * from classlog where season = :season AND classid = :classid");
+        $season=$row['season'];//自分がいたseasonと
+        $classid=$row['classid'];//自分がいたclassが対応している
+        //自分がいたシーズンとクラスidが一致しているデータを取り出す（自分以外、重複なし）
+        $a = $pdo->prepare("SELECT  userid from classlog
+        where season = :season AND classid = :classid AND userid != :userid");
         $a->bindValue(":season",$season,PDO::PARAM_INT);
         $a->bindValue(":classid",$classid,PDO::PARAM_INT);
+        $a->bindValue(":userid",$id,PDO::PARAM_INT);
         $a->execute();
         foreach($a as $u)
         {
-            if($u['userid']==$id||in_array($u['userid'],$userArray))
+            if(in_array($u['userid'],$userArray))//同じクラスになったことがある人が複数回あるときのチェック
             {
                 continue;
             }
