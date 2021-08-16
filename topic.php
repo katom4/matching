@@ -61,5 +61,6 @@ $filename='topic';
                 echo("<h3 class='chatchild'>{$row['text']}</h3>");
             }
         ?>
+    </div>
 </body>
 </html>

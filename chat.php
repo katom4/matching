@@ -6,7 +6,6 @@ include('sentinelconfig.php');
 if(isset($_POST["chatsubmit"])&&$_POST['text']!="")
 {
     $userid = Sentinel::getUser()->id;//今のuserid取得
-    echo("aaa");
     $classid = getProfile('classid');;
     $text = $_POST['text'];
     $sth=$pdo -> prepare("INSERT into chat(text,userid,classid) value(:text,:userid,:classid)");
@@ -59,5 +58,6 @@ $filename='chat';
                 echo("<h3 class='chatchild'>{$row['text']}</h3>");
             }
         ?>
+    </div>
 </body>
 </html>

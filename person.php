@@ -6,15 +6,30 @@ include('sentinelconfig.php');
 $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 session_start();
 
-if(isset($_POST['submit']))
+if(isset($_POST['choose']))
 {
-
+    $_SESSION['partnerid']=$_POST['partnerid'];
+    $_SESSION['partnerNick']=$_POST['partnerNick'];
+}
+if(isset($_POST['personsubmit'])&&$_POST['text']!="")
+{
+    $userid = Sentinel::getUser()->id;//今のuserid取得
+    $partnerid = $_SESSION['partnerid'];
+    $text = $_POST['text'];
+    $sth=$pdo -> prepare("INSERT into person(text,userid,partnerid) value(:text,:userid,:partnerid)");
+    $sth ->bindValue(":text",$text,PDO::PARAM_STR);
+    $sth ->bindValue(":userid",$userid,PDO::PARAM_INT);
+    $sth ->bindValue(":partnerid",$partnerid,PDO::PARAM_INT);
+    $sth->execute();
+    header("location:/matching/person.php");
 }
 
-$filename='chat';
+$filename='person';
 ?>
 <script type="text/javascript">
     var filename='<?php echo $filename ?>';
+    var userid=<?php echo Sentinel::getUser()->id ?>;
+    var partnerid=<?php echo $_SESSION['partnerid'] ?>;
 </script>
 
 <!DOCTYPE html>
@@ -26,12 +41,15 @@ $filename='chat';
     <title>Document</title>
 </head>
 <body>
+<h1>Chat</h1>
+<?php include "modeSelect.html" ?>
     <?php
     //自分のidのseasonとclassidが一致するidを調べている
     $id = Sentinel::getUser()->id;
     $sth = $pdo->prepare("SELECT * from classlog where userid=:userid");
     $sth->bindValue(":userid",$id,PDO::PARAM_INT);
     $sth->execute();
+    $userArray=array();//検索する時に、同じユーザーがヒットするのを防ぐために、相手のユーザーidを配列で管理している
     foreach($sth as $row)
     {
         $season=$row['season'];
@@ -42,7 +60,7 @@ $filename='chat';
         $a->execute();
         foreach($a as $u)
         {
-            if($u['userid']==$id)
+            if($u['userid']==$id||in_array($u['userid'],$userArray))
             {
                 continue;
             }
@@ -53,17 +71,51 @@ $filename='chat';
                 $n->bindValue(":id",$partnerid,PDO::PARAM_INT);
                 $n->execute();
                 $partnerNick=$n->fetch()['nickname'];
-                
+                array_push($userArray,$u['userid']);
             }
         ?>
             <form method="post">
                 <input type="hidden" name='partnerid' value="<?=$partnerid?>">
-                <input type="submit" name="submit" value="<?=$partnerNick?>">
+                <input type="hidden" name='partnerNick' value="<?=$partnerNick?>">
+                <input type="submit" name="choose" value="<?=$partnerNick?>">
             </form>
     <?php
         }
     }
     ?>
+    <?php
+    echo("<h2>to:{$_SESSION['partnerNick']}</h2>");
+    ?>
+    <form method="post">
+        <input type="text" name="text" id="text">
+        <input type="submit" name="personsubmit" value="送信" onclick="OnButtonClick()">
+    </form>
 
+
+    <div id="chat">
+        <?php
+            //チャットの表示部分
+            if(isset($_SESSION['partnerid']))
+            {
+                $id=Sentinel::GetUser()->id;
+                $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                $sth = $pdo->prepare("SELECT * from person where 
+                    (userid=:userid AND partnerid=:partnerid) OR  (userid=:partnerid AND partnerid=:userid) 
+                    order by id desc");
+                $sth ->bindValue(":userid",$id,PDO::PARAM_STR);
+                $sth ->bindValue(":partnerid",$_SESSION['partnerid'],PDO::PARAM_STR);
+                $sth->execute();
+                foreach($sth as $row)
+                {
+                    $sth = $pdo->prepare("SELECT nickname from profile where id = :userid");
+                    $sth ->bindValue(":userid",$row['userid'],PDO::PARAM_INT);
+                    $sth->execute();
+                    $nickname = $sth->fetch()['nickname'];
+                    echo("<p class='nickname'>{$nickname}</p>");
+                    echo("<h3 class='chatchild'>{$row['text']}</h3>");
+                }
+            }
+        ?>
+    </div>
 </body>
 </html>
