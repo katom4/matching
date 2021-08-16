@@ -29,6 +29,10 @@ if(Sentinel::getUser()->email!="kanri@kanri.com")
 
 function organize()
 {
+    //多分後から配列に「クラス替えをするユーザー」（次のシーズンも利用するユーザー）だけの
+    //idを格納した配列でクラス替えをする必要がある
+
+
     $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         $sth = $pdo ->prepare("SELECT count(id) AS num FROM profile");
         $sth -> execute();

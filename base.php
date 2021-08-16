@@ -43,7 +43,7 @@ function getProfile($e)
 
 
 //チャット送信時の処理
-if(isset($_POST["submit"]))
+/*if(isset($_POST["submit"]))
 {
     $userid = Sentinel::getUser()->id;//今のuserid取得
     $classid = getProfile('classid');;
@@ -54,7 +54,7 @@ if(isset($_POST["submit"]))
     $sth ->bindValue(":classid",$classid,PDO::PARAM_INT);
     $sth->execute();
     header("location:/matching");
-}
+}*/
 
 //権限者のクラス編成用のページリンクを表示
 if(Sentinel::getUser()->email=="kanri@kanri.com")

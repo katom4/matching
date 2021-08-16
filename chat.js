@@ -16,10 +16,10 @@ conn.onmessage = function(e) {
     }
     else
     {
-      count=-2;
+      count=-3;
     }
   }
-  if(count==2&&classid===e.data)
+  if(count==2&&classid===e.data)//classidはbase.phpで定義している
   {
       onclass=true;
   }
@@ -28,11 +28,16 @@ conn.onmessage = function(e) {
     if(onclass==true)
     {
       addChat(e.data,'h3')
-      addChat(nickname,'p');//nicknameはindex.phpで定義している
-      
+    }
+  }
+  if(count==4)
+  {
+    if(onclass==true)
+    {
+      addChat(e.data,'p')//nickname
       onclass=false;
     }
-    count=0;
+    count==0;
   }
   
   //送信されるごとにリダイレクトされるやつ、動作確認済み
@@ -47,12 +52,14 @@ function link(){
 function OnButtonClick(){
   
   text = document.getElementById("text").value;//inputのtextの要素を取得
+  addChat(text,'h3')
   if(text != "")//textの中身チェック
   {
     console.log(text);
     conn.send(filename);
     conn.send(classid);
-    conn.send(text);//同期する
+    conn.send(text);
+    conn.send(nickname);
   }
 }
 function a(){

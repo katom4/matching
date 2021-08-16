@@ -3,7 +3,7 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 include('base.php');
 include('sentinelconfig.php');
-if(isset($_POST["studysubmit"]))
+if(isset($_POST["studysubmit"])&&$_POST['text']!="")
 {
     $userid = Sentinel::getUser()->id;//今のuserid取得
     echo("aaa");
