@@ -70,7 +70,6 @@ function link(){
 function OnButtonClick(){
   
   text = document.getElementById("text").value;//inputのtextの要素を取得
-  addChat(text,'h3')
   if(text != "")//textの中身チェック
   {
     console.log(text);
