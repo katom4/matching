@@ -84,15 +84,42 @@ var classid='<?php echo $classid; ?>';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="chat.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="chat.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <p><a href="/matching/index.php?logout=true">ログアウト</a></p>
-    <p><a href="/matching/profile.php">プロフィール</a></p>
-    <a href="/matching/chat.php">chat</a>
-    <a href="/matching/study.php">study</a>
-    <a href="/matching/game.php">game</a>
-    <a href="/matching/topic.php">topic</a>
-    <a href="/matching/person.php">個人</a>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top">
+        <a class="navbar-brand" href="#">Matching</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link"  href="/matching/index.php?logout=true">ログアウト</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/matching/profile.php">プロフィール</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="btn btn-light dropdown-toggle text-black-50" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Talks
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="/matching/chat.php">chat</a></li>
+                        <li><a class="dropdown-item" href="/matching/game.php">game</a></li>
+                        <li><a class="dropdown-item" href="/matching/topic.php">topic</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
     <?php //include "modeSelect.html" ?>
     <!--<form method="post">
         <input type="text" name="text" id="text">
@@ -121,6 +148,8 @@ var classid='<?php echo $classid; ?>';
                 echo("<h3 class='chatchild'>{$row['text']}</h3>");
             }*/
         ?>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 </body>
 </html>
 
