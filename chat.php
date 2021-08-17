@@ -29,18 +29,22 @@ $filename='chat';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="chat.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
 <h1>Chat</h1>
-<?php include "modeSelect.html" ?>
-    <form method="post">
+    <form method="post"><!-- class="text m-1"を追加することで下に固定できる-->
         <input type="text" name="text" id="text">
         <input type="submit" name="chatsubmit" onclick="OnButtonClick()"/>
     </form>
     <script type="text/javascript">
         
     </script>
-    <div id="chat">
+    <div class="pb-5">
         <?php
             //チャットの表示部分
             $classid=getProfile('classid');
@@ -54,9 +58,19 @@ $filename='chat';
                 $sth ->bindValue(":userid",$row['userid'],PDO::PARAM_INT);
                 $sth->execute();
                 $nickname = $sth->fetch()['nickname'];
-                echo("<p class='nickname'>{$nickname}</p>");
-                echo("<h3 class='chatchild'>{$row['text']}</h3>");
-            }
+        ?>
+                <div class="container-fluid">
+                    <div class="row">
+                        <p class="text-muted small m-0 mt-2 ml-1"><?=$nickname?></p>
+                    </div>
+                    <div class="row ">
+                        <div class="bg-light border rounded ml-1">
+                            <h6 class=' my-2 mx-2 '><?=$row['text']?></h6>
+                        </div>
+                    </div>
+                </div>
+                
+      <?php }
         ?>
     </div>
 </body>

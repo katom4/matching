@@ -88,6 +88,11 @@ var classid='<?php echo $classid; ?>';
 <body>
     <p><a href="/matching/index.php?logout=true">ログアウト</a></p>
     <p><a href="/matching/profile.php">プロフィール</a></p>
+    <a href="/matching/chat.php">chat</a>
+    <a href="/matching/study.php">study</a>
+    <a href="/matching/game.php">game</a>
+    <a href="/matching/topic.php">topic</a>
+    <a href="/matching/person.php">個人</a>
     <?php //include "modeSelect.html" ?>
     <!--<form method="post">
         <input type="text" name="text" id="text">
