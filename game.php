@@ -31,7 +31,6 @@ $filename='game';
 </head>
 <body>
 <h1>Game</h1>
-<?php include "modeSelect.html" ?>
     <form method="post">
         <input type="text" name="text" id="text">
         <input type="submit" name="gamesubmit" onclick="OnButtonClick()"/>

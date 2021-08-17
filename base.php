@@ -120,7 +120,7 @@ var classid='<?php echo $classid; ?>';
         </div>
     </nav>
     
-    <?php //include "modeSelect.html" ?>
+    <?php //.html" ?>
     <!--<form method="post">
         <input type="text" name="text" id="text">
         <input type="submit" name="submit" onclick="OnButtonClick()"/>

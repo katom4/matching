@@ -35,7 +35,6 @@ $filename='topic';
 </head>
 <body>
 <h1>Topic</h1>
-<?php include "modeSelect.html" ?>
     <form method="post">
         <input type="text" name="text" id="text">
         <input type="submit" name="topicsubmit" onclick="OnButtonClick()"/>

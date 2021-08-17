@@ -93,7 +93,6 @@ var classid='<?php echo $classid; ?>';
     <h1>index.php</h1>
     <p><a href="/matching/index.php?logout=true">ログアウト</a></p>
     <p><a href="/matching/profile.php">プロフィール</a></p>
-    <?php include "modeSelect.html" ?>
     <?php //include "modeSelect.html" ?>
     <!--<form method="post">
         <input type="text" name="text" id="text">

@@ -5,6 +5,8 @@ include('base.php') ;
 include('sentinelconfig.php');
 $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 session_start();
+//今は使わないのでchat.phpにリダイレクトしている
+header("location:/matching/chat.php");
 
 if(isset($_POST['choose']))
 {
@@ -42,7 +44,6 @@ $filename='person';
 </head>
 <body>
 <h1>Chat</h1>
-<?php include "modeSelect.html" ?>
     <?php
     //自分のidのseasonとclassidが一致するidを調べている
     $id = Sentinel::getUser()->id;

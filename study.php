@@ -3,6 +3,8 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 include('base.php');
 include('sentinelconfig.php');
+//今は使わないのでchat.phpにリダイレクトしている
+header("location:/matching/chat.php");
 if(isset($_POST["studysubmit"])&&$_POST['text']!="")
 {
     $userid = Sentinel::getUser()->id;//今のuserid取得
@@ -32,7 +34,6 @@ $filename='study';
 </head>
 <body>
 <h1>Study</h1>
-<?php include "modeSelect.html" ?>
     <form method="post">
         <input type="text" name="text" id="text">
         <input type="submit" name="studysubmit" onclick="OnButtonClick()"/>
