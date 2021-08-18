@@ -18,6 +18,63 @@ if(isset($_POST["topicsubmit"])&&$_POST['text']!="")
     header("location:/matching/topic.php");
 }
 $filename='topic';
+
+if(isset($_POST["answer"]))
+{
+    $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $xxx = $pdo->prepare("SELECT * from work order by workid desc");
+    $xxx->execute();
+    $workid=0;
+    foreach($xxx as $row){$workid=$row['workid'];}
+
+    if($_FILES['upfile']!=""){
+        $raw_data = file_get_contents($_FILES['upfile']['tmp_name']);
+        //拡張子を見る
+        $tmp = pathinfo($_FILES["upfile"]["name"]);
+        $extension = $tmp["extension"];
+        if($extension === "jpg" || $extension === "jpeg" || $extension === "JPG" || $extension === "JPEG"){
+            $extension = "jpeg";
+        }
+        elseif($extension === "png" || $extension === "PNG"){
+            $extension = "png";
+        }
+        elseif($extension === "gif" || $extension === "GIF"){
+            $extension = "gif";
+        }
+        elseif($extension === "mp4" || $extension === "MP4"){
+            $extension = "mp4";
+        }
+        else{
+            echo "非対応ファイルです．<br/>";
+            echo ("<a href=\"index.php\">戻る</a><br/>");
+            exit(1);
+        }
+        $fname = $_FILES["upfile"]["tmp_name"];
+        $classid = getProfile('classid');;
+        $text = $_POST['text'];
+
+        $sql = "INSERT INTO answer(text,fname, extension, raw_data,workid,classid) VALUES (:text,:fname, :extension, :raw_data,:workid,:classid);";
+        $stmt = $pdo->prepare($sql);
+        $stmt -> bindValue(":text",$text, PDO::PARAM_STR);
+        $stmt -> bindValue(":fname",$fname, PDO::PARAM_STR);
+        $stmt -> bindValue(":extension",$extension, PDO::PARAM_STR);
+        $stmt -> bindValue(":raw_data",$raw_data, PDO::PARAM_STR);
+        $stmt ->bindValue(":workid",$workid,PDO::PARAM_INT);
+        $stmt ->bindValue(":classid",$classid,PDO::PARAM_INT);
+        $stmt -> execute();
+        header("location:/matching/topic.php");
+    }else{
+    $classid = getProfile('classid');;
+    $text = $_POST['text'];
+    $sth=$pdo -> prepare("INSERT into answer(text,workid,classid) value(:text,:workid,:classid)");
+    $sth ->bindValue(":text",$text,PDO::PARAM_STR);
+    $sth ->bindValue(":workid",$workid,PDO::PARAM_INT);
+    $sth ->bindValue(":classid",$classid,PDO::PARAM_INT);
+    $sth->execute();
+    header("location:/matching/topic.php");
+    }
+    
+}
 ?>
 
 <script type="text/javascript">
@@ -35,6 +92,23 @@ $filename='topic';
 </head>
 <body>
 <h1>Topic</h1>
+<?php 
+    $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $sth = $pdo->prepare("SELECT * from work order by workid desc");
+    $sth->execute();
+    $topic="";
+    foreach($sth as $row){$topic=$row['text'];}
+    echo("<h2>今回のトピックは{$topic}</h2>");
+?>
+    <!--topic専用入力フォーム-->
+    <p>＊クラスで課題が完了した方は下記のフォームに入力をお願いします</p>
+    <form method="post" enctype="multipart/form-data">
+        <input type="text" name="text">
+        <input type="file" name="upfile">
+        <input type="submit" name="answer">
+    </form>
+    <p>＊ここまでが課題提出フォームです</p>
+
     <form method="post">
         <input type="text" name="text" id="text">
         <input type="submit" name="topicsubmit" onclick="OnButtonClick()"/>
