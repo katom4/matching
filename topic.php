@@ -27,7 +27,7 @@ if(isset($_POST["answer"]))
     $workid=0;
     foreach($xxx as $row){$workid=$row['workid'];}
 
-    if($_FILES['upfile']!=""){
+    if(isset($_FILES['upfile']['error']) && is_int($_FILES['upfile']['error']) && $_FILES["upfile"]["name"] !== ""){
         $raw_data = file_get_contents($_FILES['upfile']['tmp_name']);
         //拡張子を見る
         $tmp = pathinfo($_FILES["upfile"]["name"]);
