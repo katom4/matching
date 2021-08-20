@@ -94,7 +94,7 @@ if(isset($_POST["answer"]))
 <h1>Topic</h1>
 <?php 
     $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    $sth = $pdo->prepare("SELECT * from work order by season desc");
+    $sth = $pdo->prepare("SELECT * from work order by season");
     $sth->execute();
     $topic="";
     foreach($sth as $row){$topic=$row['text'];}
