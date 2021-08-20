@@ -22,10 +22,10 @@ $filename='topic';
 if(isset($_POST["answer"]))
 {
     $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    $xxx = $pdo->prepare("SELECT * from work order by workid desc");
+    $xxx = $pdo->prepare("SELECT * from work order by season");
     $xxx->execute();
-    $workid=0;
-    foreach($xxx as $row){$workid=$row['workid'];}
+    $season=0;
+    foreach($xxx as $row){$season=$row['season'];}
 
     if(isset($_FILES['upfile']['error']) && is_int($_FILES['upfile']['error']) && $_FILES["upfile"]["name"] !== ""){
         $raw_data = file_get_contents($_FILES['upfile']['tmp_name']);
@@ -53,22 +53,22 @@ if(isset($_POST["answer"]))
         $classid = getProfile('classid');;
         $text = $_POST['text'];
 
-        $sql = "INSERT INTO answer(text,fname, extension, raw_data,workid,classid) VALUES (:text,:fname, :extension, :raw_data,:workid,:classid);";
+        $sql = "REPLACE INTO answer(text,fname, extension, raw_data,season,classid) VALUES (:text,:fname, :extension, :raw_data,:season,:classid);";
         $stmt = $pdo->prepare($sql);
         $stmt -> bindValue(":text",$text, PDO::PARAM_STR);
         $stmt -> bindValue(":fname",$fname, PDO::PARAM_STR);
         $stmt -> bindValue(":extension",$extension, PDO::PARAM_STR);
         $stmt -> bindValue(":raw_data",$raw_data, PDO::PARAM_STR);
-        $stmt ->bindValue(":workid",$workid,PDO::PARAM_INT);
+        $stmt ->bindValue(":season",$season,PDO::PARAM_INT);
         $stmt ->bindValue(":classid",$classid,PDO::PARAM_INT);
         $stmt -> execute();
         header("location:/matching/topic.php");
     }else{
     $classid = getProfile('classid');;
     $text = $_POST['text'];
-    $sth=$pdo -> prepare("INSERT into answer(text,workid,classid) value(:text,:workid,:classid)");
+    $sth=$pdo -> prepare("REPLACE  into answer(text,season,classid) value(:text,:season,:classid)");
     $sth ->bindValue(":text",$text,PDO::PARAM_STR);
-    $sth ->bindValue(":workid",$workid,PDO::PARAM_INT);
+    $sth ->bindValue(":season",$season,PDO::PARAM_INT);
     $sth ->bindValue(":classid",$classid,PDO::PARAM_INT);
     $sth->execute();
     header("location:/matching/topic.php");
@@ -94,7 +94,7 @@ if(isset($_POST["answer"]))
 <h1>Topic</h1>
 <?php 
     $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    $sth = $pdo->prepare("SELECT * from work order by workid desc");
+    $sth = $pdo->prepare("SELECT * from work order by season desc");
     $sth->execute();
     $topic="";
     foreach($sth as $row){$topic=$row['text'];}

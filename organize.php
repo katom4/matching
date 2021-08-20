@@ -63,7 +63,7 @@ function organize()
 }
     
 
-    if(isset($_POST['org']))
+    if(isset($_POST['org']) && $_POST['text']!="")
     {
         organize();
         //classlogに追加
@@ -84,16 +84,12 @@ function organize()
             $sth->bindValue(":classid",$row['classid'],PDO::PARAM_STR);
             $sth->execute();
         }
-        
+        $text=$_POST['text'];
+        $sth = $pdo->prepare("INSERT INTO work(text) values(:text)");
+        $sth->bindValue(":text",$text,PDO::PARAM_STR);
+        $sth->execute();
     }
 
-if(isset($_POST['submit']))
-{
-    $text=$_POST['text'];
-    $sth = $pdo->prepare("INSERT INTO work(text) values(:text)");
-    $sth->bindValue(":text",$text,PDO::PARAM_STR);
-    $sth->execute();
-}
 ?>
 
 <!DOCTYPE html>
@@ -106,15 +102,12 @@ if(isset($_POST['submit']))
 </head>
 <body>
     <form method ="post">
+        <input type="text" name="text"></input>
         <input type="submit" name="org" value="クラス編成">
     </form>
     <p></p>
     <p></p>
     <a href="/matching">トップに戻る</a>
 
-    <form method="post" autocomplete="off" class="upWork">
-        <input type="text" name="text"></input>
-        <input type="submit" name="submit"></input>
-    </form>
 </body>
 </html>
