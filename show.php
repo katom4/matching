@@ -7,13 +7,15 @@ include('sentinelconfig.php');
 $sql = "SELECT max(season) FROM answer ORDER BY id;";
 $sth = $pdo->prepare($sql);
 $sth->execute();
+$max=$selSeason=$sth->fetch()[0];
+$max=7;
 if(!isset($_POST['selSeason']))
 {
-    $selSeason=$sth->fetch()[0];
+    $selSeason=$max;
 }
 else
 {
-    $selSeason=$_POST['val'];
+    $selSeason=$_POST['selSeason'];
 }
 ?>
 
@@ -36,13 +38,13 @@ else
 
 <form method="post">
 <?php
-    for($i=$selSeason;$i>0;$i--)
+    for($i=$selSeason+2;$i>0;$i--)
     {
+        if($i>$max)continue;
 ?>
-    <input type="hidden" value="<?= $i?>" name="val">
     <input type="submit" name="selSeason" value="<?= $i?>">
     <?php
-    if($i<=$selSeason-4)break;
+    if($i<=$selSeason-2)break;
     }
     ?>
 </form>
