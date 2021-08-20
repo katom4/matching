@@ -114,13 +114,14 @@ var classid='<?php echo $classid; ?>';
                         <li><a class="dropdown-item" href="/matching/chat.php">chat</a></li>
                         <li><a class="dropdown-item" href="/matching/game.php">game</a></li>
                         <li><a class="dropdown-item" href="/matching/topic.php">topic</a></li>
+                        <li><a class="dropdown-item" href="/matching/show.php">show</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
     
-    <?php //.html" ?>
+    <?php //include "modeSelect.html" ?>
     <!--<form method="post">
         <input type="text" name="text" id="text">
         <input type="submit" name="submit" onclick="OnButtonClick()"/>
