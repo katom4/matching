@@ -27,42 +27,69 @@ if(Sentinel::getUser()->email!="kanri@kanri.com")
     header("location:/matching");
 }
 
+
 function organize()
 {
-    //多分後から配列に「クラス替えをするユーザー」（次のシーズンも利用するユーザー）だけの
-    //idを格納した配列でクラス替えをする必要がある
-
-
     $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        $sth = $pdo ->prepare("SELECT count(id) AS num FROM profile");
-        $sth -> execute();
-        
-        $count = $sth->fetch()['num'];//ユーザーの数のカウント
-        $classes = array();
-        for($i=0 ;$i<$count ;$i++)
+    $sth = $pdo ->prepare("SELECT * FROM profile");
+    $sth -> execute();
+
+    $users=array();
+    foreach($sth as $num => $row)
+    {
+        if($row['next']==1)$users[$num]=1;
+        else $users[$num]=0;
+    }
+    $s=$num;
+
+    $c = $pdo ->prepare("SELECT count(id) AS num FROM profile where next=:n");
+    $c->bindValue(":n",1,PDO::PARAM_INT);
+    $c -> execute();
+
+    $count=$c->fetch()['num'];//変更する人の総数
+    $classes = array();
+    for($i=0 ;$i<$count ;$i++)
+    {
+        $classes[$i] = (int)($i/4);
+    }
+    if($count % 4 ==1&&$count>3)
+    {
+        $classes[$count-1] = 0;
+    }
+    else if($count % 4 ==2)
+    {
+        $classes[$count-1] = 0;
+        $classes[$count-2] = 1;
+    }
+    if($count==6)//六人の時だけ特殊な並び替え
+    {
+        $classes[$count-1] = 1;
+        $classes[$count-2] = 1;
+        $classes[$count-3] = 1;
+    }
+    shuffle($classes);
+    $ccount=0;//変更する人を数える変数、$classesの適切な取得に必要
+    for($num=0;$num<$s+1;$num++)
+    {
+        if($users[$num]==1)
         {
-            $classes[$i] = (int)($i/4);
-        }
-        if($count % 4 ==1&&$count>3)
-        {
-            $classes[$count-1] = ($count % 4)-1;
-        }
-        else if($count % 4 ==2&&$count>6)
-        {
-            $classes[$count-1] = ($count % 4)-1;
-            $classes[$count-2] = ($count % 4)-2;
-        }
-        shuffle($classes);
-        foreach($classes as $num => $row)
-        {
-            $sth = $pdo ->prepare("UPDATE profile set classid=:classid where id = $num+1");//classidのアップデート
+            $sth = $pdo ->prepare("UPDATE profile set classid=:classid,next=:next where id = $num+1");//classidのアップデート
             //idは１からの連番だが、$numは０からの連番になっているため、上で１足している
-            $sth -> bindValue(":classid",$classes[$num],PDO::PARAM_INT);
+            $sth -> bindValue(":classid",$classes[$ccount],PDO::PARAM_INT);
+            $sth -> bindValue(":next",0,PDO::PARAM_INT);
+            $sth->execute();
+            $ccount++;
+        }
+        else
+        {
+            $sth = $pdo ->prepare("UPDATE profile set classid=:classid,next=:next where id = $num+1");//classidのアップデート
+            //idは１からの連番だが、$numは０からの連番になっているため、上で１足している
+            $sth -> bindValue(":classid",-1,PDO::PARAM_INT);
+            $sth -> bindValue(":next",0,PDO::PARAM_INT);
             $sth->execute();
         }
+    }
 }
-    
-
     if(isset($_POST['org']) && $_POST['text']!="")
     {
         organize();
@@ -88,6 +115,7 @@ function organize()
         $sth = $pdo->prepare("INSERT INTO work(text) values(:text)");
         $sth->bindValue(":text",$text,PDO::PARAM_STR);
         $sth->execute();
+        header("location:/matching/organize.php");
     }
 
 ?>

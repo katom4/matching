@@ -7,8 +7,7 @@ include('sentinelconfig.php');
 $sql = "SELECT max(season) FROM answer ORDER BY id;";
 $sth = $pdo->prepare($sql);
 $sth->execute();
-$max=$selSeason=$sth->fetch()[0];
-$max=7;
+$max=$sth->fetch()[0];
 if(!isset($_POST['selSeason']))
 {
     $selSeason=$max;
