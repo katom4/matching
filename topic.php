@@ -53,7 +53,7 @@ if(isset($_POST["answer"]))
         $classid = getProfile('classid');;
         $text = $_POST['text'];
 
-        $sql = "INSERT INTO answer(text,fname, extension, raw_data,season,classid) VALUES (:text,:fname, :extension, :raw_data,:season,:classid);";
+        $sql = "REPLACE INTO answer(text,fname, extension, raw_data,season,classid) VALUES (:text,:fname, :extension, :raw_data,:season,:classid);";
         $stmt = $pdo->prepare($sql);
         $stmt -> bindValue(":text",$text, PDO::PARAM_STR);
         $stmt -> bindValue(":fname",$fname, PDO::PARAM_STR);
@@ -66,7 +66,7 @@ if(isset($_POST["answer"]))
     }else{
     $classid = getProfile('classid');;
     $text = $_POST['text'];
-    $sth=$pdo -> prepare("INSERT  into answer(text,season,classid) value(:text,:season,:classid)");
+    $sth=$pdo -> prepare("REPLACE  into answer(text,season,classid) value(:text,:season,:classid)");
     $sth ->bindValue(":text",$text,PDO::PARAM_STR);
     $sth ->bindValue(":season",$season,PDO::PARAM_INT);
     $sth ->bindValue(":classid",$classid,PDO::PARAM_INT);
