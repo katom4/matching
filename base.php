@@ -22,7 +22,7 @@ if(isset($_GET['logout']))
 //ログイン中かチェック
 if ($user = Sentinel::getUser())
 {
-    echo("<p>現在のユーザーid : {$user->id}</p>");
+    //echo("<p>現在のユーザーid : {$user->id}</p>");
 }
 else
 {
@@ -66,7 +66,7 @@ if(Sentinel::getUser()->email=="kanri@kanri.com")
 $classid=getProfile('classid');
 $nickname=getProfile('nickname');
 
-echo("classid:{$classid}");
+//echo("classid:{$classid}");
 ?>
 
 
@@ -92,19 +92,13 @@ var classid='<?php echo $classid; ?>';
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top">
-        <a class="navbar-brand" href="#">Matching</a>
+        <a class="navbar-brand" href="/matching">Matching</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link"  href="/matching/index.php?logout=true">ログアウト</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="/matching/profile.php">プロフィール</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="btn btn-light dropdown-toggle text-black-50" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         Talks
@@ -114,8 +108,18 @@ var classid='<?php echo $classid; ?>';
                         <li><a class="dropdown-item" href="/matching/chat.php">chat</a></li>
                         <li><a class="dropdown-item" href="/matching/game.php">game</a></li>
                         <li><a class="dropdown-item" href="/matching/topic.php">topic</a></li>
-                        <li><a class="dropdown-item" href="/matching/show.php">show</a></li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/matching/show.php">show</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/matching/profile.php">プロフィール</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  href="/matching/index.php?logout=true">ログアウト</a>
                 </li>
             </ul>
         </div>
