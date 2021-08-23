@@ -33,8 +33,10 @@ $filename='chat';
 <body>
 <h1>Chat</h1>
     <form method="post"><!-- class="text m-1"を追加することで下に固定できる-->
-        <input type="text" name="text" id="text">
-        <input type="submit" name="chatsubmit" onclick="OnButtonClick()"/>
+        <div class="input-group">
+            <input type="text" name="text" id="text" class="form-control" placeholder="テキスト">
+            <input type="submit" name="chatsubmit" onclick="OnButtonClick()" class="btn btn-success"/>
+        </div>
     </form>
     <script type="text/javascript">
         

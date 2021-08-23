@@ -3,6 +3,10 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 include('base.php');
 include('sentinelconfig.php');
+session_start();
+header('Expires:-1');
+header('Cache-Control:');
+header('Pragma:');
 
 $sql = "SELECT max(season) FROM answer ORDER BY id;";
 $sth = $pdo->prepare($sql);
@@ -11,10 +15,12 @@ $max=$sth->fetch()[0];
 if(!isset($_POST['selSeason']))
 {
     $selSeason=$max;
+    $_SESSION['season']=$max;
 }
 else
 {
     $selSeason=$_POST['selSeason'];
+    $_SESSION['season']=$_POST['selSeason'];
 }
 ?>
 
@@ -37,13 +43,13 @@ else
 
 <form method="post">
 <?php
-    for($i=$selSeason+2;$i>0;$i--)
+    for($i=$_SESSION['season']+2;$i>0;$i--)
     {
         if($i>$max)continue;
 ?>
     <input type="submit" name="selSeason" value="<?= $i?>">
     <?php
-    if($i<=$selSeason-2)break;
+    if($i<=$_SESSION['season']-2)break;
     }
     ?>
 </form>
@@ -51,7 +57,7 @@ else
     //DBから取得して表示する.
     $sql = "SELECT * FROM answer where season=:season ORDER BY id;";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(":season",$selSeason,PDO::PARAM_INT);
+    $stmt->bindValue(":season",$_SESSION['season'],PDO::PARAM_INT);
     $stmt -> execute();
     while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)){
         echo ($row["text"]."<br>");
