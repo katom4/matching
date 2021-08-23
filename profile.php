@@ -1,5 +1,4 @@
-//自分のステータス
-//自分のステータスを入力
+
 <?php
 
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
@@ -88,6 +87,22 @@ if(isset($_POST['submit']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <?php 
+        $id=$user->id;
+        $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","root","", [PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING]);
+        $xxx = $pdo->prepare("SELECT * FROM profile where id=$id");
+        $xxx->execute();
+        foreach($xxx as $raw){
+            $raw_nickname=$raw['nickname'];
+            $raw_subject=$raw['subject'];
+            $raw_food=$raw['food'];
+            $raw_club=$raw['club'];
+            $raw_sex=$raw['sex'];
+            $raw_occupation=$raw['occupation'];
+            $raw_next=$raw['next'];
+        }
+    ?>
 </head>
 <body>
     <h1>profile</h1>
@@ -96,7 +111,7 @@ if(isset($_POST['submit']))
     <h3>自分のプロフィールを入力してください</h3>
     <form method="post" autocomplete="off" class="toprofile">
         <lavel>ニックネーム：<br></lavel>
-        <input type="text" name="nickname"></input><br>
+        <input type="text" name="nickname" value="<?php echo($raw_nickname);?>"></input><br>
         <lavel>性別:
         <select name="sex">
             <option value=1>男</option>
@@ -119,9 +134,9 @@ if(isset($_POST['submit']))
         </select><br></lavel>
 
         好きな食べ物:<br>
-        <input type="text" name="food"></input><br>
+        <input type="text" name="food" value=<?php echo($raw_food);?>></input><br>
         部活動:<br>
-        <input type="text" name="club"></input><br>
+        <input type="text" name="club" value=<?php echo($raw_club);?>></input><br>
 
         <lavel>つぎのseasonも参加しますか？:
         <select name="next">

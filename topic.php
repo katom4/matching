@@ -98,7 +98,7 @@ if(isset($_POST["answer"]))
     $sth->execute();
     $topic="";
     foreach($sth as $row){$topic=$row['text'];}
-    echo("<h2>今回のトピックは{$topic}</h2>");
+    echo("<h2>今回のトピックは「{$topic}」</h2>");
 ?>
     <!--topic専用入力フォーム-->
     <p>＊クラスで課題が完了した方は下記のフォームに入力をお願いします</p>
