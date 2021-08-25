@@ -3,3 +3,12 @@
     bottom: 0;
 }
 
+.w20 {
+    width:45px;
+    height:40px;
+}
+
+.cbg-green{
+    background-color:#C5E0B4;
+    /*濃いめ：E2F0D9*/
+}

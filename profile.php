@@ -1,12 +1,21 @@
 
 <?php
-
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 // Include the composer autoload file
 require 'vendor/autoload.php';
 include('base.php') ;
 include('sentinelconfig.php');
+//ログイン中かチェック
+if ($user = Sentinel::getUser())
+{
+    //echo("<p>現在のユーザーid : {$user->id}</p>");
+}
+else
+{
+    header("location:/matching/login.php");
+}
+
 
 $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","root","", [PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING]);
 
@@ -133,52 +142,84 @@ if(isset($_POST['submit']))
     if($classid==-1&&getProfile("next")!=1)
     {
     ?>
-        <h5>参加が未設定です！クラスに参加したい場合は１番下のフォームから選択してください</h5>
+    <div class="alert alert-warning" role="alert">
+        参加が未設定です！<br>クラスに参加したい場合は１番下のフォームで「参加する」を選択してください
+    </div>
     <?php
     }
     if($classid==-1&&getProfile("next")==1)
     {
     ?>
-        <h5>クラスの編成待ちです。しばらくお待ちください。</h5>
+    <div class="alert alert-primary" role="alert">
+        クラスの編成待ちです。しばらくお待ちください
+    </div>
     <?php
     }
     ?>
-    <h3>自分のプロフィールを入力してください</h3>
     <form method="post" autocomplete="off" class="toprofile">
-        <lavel>ニックネーム：<br></lavel>
-        <input type="text" name="nickname" value="<?php echo($raw_nickname);?>"></input><br>
-        <lavel>性別:
-        <select name="sex">
-            <option value=1>男</option>
-            <option value=2>女</option>
-        </select><br></lavel>
+        <div class='form-group px-2'>
+            <lavel for="nickname" class="form-label">ニックネーム<br></lavel>
+            <input type="text" name="nickname" value="<?php echo($raw_nickname);?>" class="form-control" id="nickname"></input><br>
+        </div>
+        <div class="form-group  px-2">
+            <lavel>性別
+            <select name="sex" class="form-control">
+                <option value=1>男</option>
+                <option value=2>女</option>
+            </select><br></lavel>
+        </div>
         
-        <lavel>得意教科:
-        <select name="subject">
-            <option value=1>国語</option>
-            <option value=2>数学</option>
-            <option value=3>理科</option>
-            <option value=4>社会</option>
-            <option value=5>英語</option>
-        </select><br></lavel>
+        <div class="form-group  px-2">
+            <lavel>得意教科
+            <select name="subject" class="form-control">
+                <option value=1>国語</option>
+                <option value=2>数学</option>
+                <option value=3>理科</option>
+                <option value=4>社会</option>
+                <option value=5>英語</option>
+            </select><br></lavel>
+        </div>
         
-        <lavel>学生か社会人か:
-        <select name="occupation">
-            <option value=1>学生</option>
-            <option value=2>社会人</option>
-        </select><br></lavel>
+        <div class="form-group  px-2">
+            <lavel>学生か社会人か
+            <select name="occupation" class="form-control">
+                <option value=1>学生</option>
+                <option value=2>社会人</option>
+            </select><br></lavel>
+        </div>
 
-        好きな食べ物:<br>
-        <input type="text" name="food" value=<?php echo($raw_food);?>></input><br>
-        部活動:<br>
-        <input type="text" name="club" value=<?php echo($raw_club);?>></input><br>
+        <div class='form-group px-2'>
+            <lavel for="favfood" class="form-label">好きな食べ物<br></lavel>
+            <input type="text" name="food" value="<?php echo($raw_food);?>" class="form-control" id="favfood"></input><br>
+        </div>
 
-        <lavel>つぎのseasonも参加しますか？:
-        <select name="next">
-            <option value=1>参加する</option>
-            <option value=2>参加しない</option>
-        </select><br></lavel>
-        <input type="submit" name="submit"></input>
+
+        <div class='px-2'>
+            <lavel for="club" class="form-label">部活動<br></lavel>
+            <input type="text" name="club" value="<?php echo($raw_club);?>" class="form-control" id="club"></input><br>
+        </div> 
+
+        <div class="form-group  px-2">
+            <lavel>
+            <?php
+            if($classid==-1){
+            ?>
+                クラスに参加しますか？
+            <?php }
+            else{
+            ?>
+                次のシーズンもクラスに参加しますか？
+            <?php }
+            ?>
+            <select name="next" class="form-control">
+                <option value=1>参加する</option>
+                <option value=2>参加しない</option>
+            </select><br></lavel>
+        </div>
+
+        <div class="px-2">
+            <input type="submit" name="submit" class="btn btn-primary"></input>
+        </div>
     </form>
 </body>
 </html>

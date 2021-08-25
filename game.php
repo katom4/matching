@@ -3,6 +3,17 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 include('base.php') ;
 include('sentinelconfig.php');
+
+//ログイン中かチェック
+if ($user = Sentinel::getUser())
+{
+    //echo("<p>現在のユーザーid : {$user->id}</p>");
+}
+else
+{
+    header("location:/matching/login.php");
+}
+
 if(isset($_POST["gamesubmit"])&&$_POST['text']!="")
 {
     $userid = Sentinel::getUser()->id;//今のuserid取得

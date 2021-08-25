@@ -9,7 +9,19 @@ $capsule->bootEloquent();
 
 //----↑sentinelとの接続部分
 
+
+
 session_start();
+
+if ($user = Sentinel::getUser())
+{
+    $logName="ログアウト";
+}
+else
+{
+    $logName="ログイン";
+}
+
 $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
 //ログアウト時の処理
@@ -19,15 +31,6 @@ if(isset($_GET['logout']))
     header("location:/matching/login.php");
 }
 
-//ログイン中かチェック
-if ($user = Sentinel::getUser())
-{
-    //echo("<p>現在のユーザーid : {$user->id}</p>");
-}
-else
-{
-    header("location:/matching/login.php");
-}
 
 //Profileの要素を取得する関数
 function getProfile($e)
@@ -96,7 +99,7 @@ var classid='<?php echo $classid; ?>';
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top">
+    <nav class="navbar navbar-expand-sm navbar-light cbg-green sticky-top">
         <a class="navbar-brand" href="/matching">Matching</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -105,10 +108,9 @@ var classid='<?php echo $classid; ?>';
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
-                    <a class="btn btn-light dropdown-toggle text-black-50" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle bg-green" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         Talks
                     </a>
-
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <li><a class="dropdown-item" href="/matching/chat.php">chat</a></li>
                         <li><a class="dropdown-item" href="/matching/game.php">game</a></li>
@@ -124,7 +126,7 @@ var classid='<?php echo $classid; ?>';
                     <a class="nav-link" href="/matching/profile.php">プロフィール</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  href="/matching/index.php?logout=true">ログアウト</a>
+                    <a class="nav-link"  href="/matching/index.php?logout=true"><?=$logName?></a>
                 </li>
             </ul>
         </div>

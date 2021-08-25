@@ -3,6 +3,17 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 include('base.php') ;
 include('sentinelconfig.php');
+
+//ログイン中かチェック
+if ($user = Sentinel::getUser())
+{
+    //echo("<p>現在のユーザーid : {$user->id}</p>");
+}
+else
+{
+    header("location:/matching/login.php");
+}
+
 if(isset($_POST["chatsubmit"])&&$_POST['text']!="")
 {
     $userid = Sentinel::getUser()->id;//今のuserid取得
@@ -61,7 +72,7 @@ if($classid==-1)
                 $sth->execute();
                 $nickname = $sth->fetch()['nickname'];
         ?>
-                <div class="container-fluid">
+                <div class="container-fluid mt-2">
                     <div class="row">
                         <p class="text-muted small m-0 mt-2 ml-1"><?=$nickname?></p>
                     </div>

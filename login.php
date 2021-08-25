@@ -2,6 +2,7 @@
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 // Include the composer autoload file
+include('base.php');
 require 'vendor/autoload.php';
 
 // Setup a new Eloquent Capsule instance
