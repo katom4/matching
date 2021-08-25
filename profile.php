@@ -97,11 +97,8 @@ if(isset($_POST['submit']))
         $sth->bindValue(":classidWh",-1,PDO::PARAM_INT);
         $sth->bindValue(":nextWh",1,PDO::PARAM_INT);
         $sth->execute();
-        echo("<p></p>");
-        echo($max);
-        echo("<p></p>");
     }
-    echo($count);
+    header("location:/matching/profile.php");
 }
 
 ?>
