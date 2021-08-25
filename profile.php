@@ -5,6 +5,9 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 // Include the composer autoload file
 require 'vendor/autoload.php';
+include('base.php') ;
+include('sentinelconfig.php');
+
 $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","root","", [PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING]);
 
 // Setup a new Eloquent Capsule instance
@@ -75,7 +78,28 @@ if(isset($_POST['submit']))
         $sth->execute();
     }
     
-    
+    $sth=$pdo->prepare("SELECT count(id) as num from profile where classid = :classid and next = :next");
+    $sth->bindValue(":classid",-1,PDO::PARAM_INT);
+    $sth->bindValue(":next",1,PDO::PARAM_INT);
+    $sth->execute();
+    $count=$sth->fetch()['num'];
+    if($count==4)
+    {
+        $sth=$pdo->prepare("SELECT max(classid) as max from profile");
+        $sth->execute();
+        $max=$sth->fetch()['max'];
+        $sth = $pdo ->prepare("UPDATE profile set classid=:classid,next=:next 
+            where classid=:classidWh and next = :nextWh");//classidのアップデート
+        $sth->bindValue(":classid",$max+1,PDO::PARAM_INT);
+        $sth->bindValue(":next",0,PDO::PARAM_INT);
+        $sth->bindValue(":classidWh",-1,PDO::PARAM_INT);
+        $sth->bindValue(":nextWh",1,PDO::PARAM_INT);
+        $sth->execute();
+        echo("<p></p>");
+        echo($max);
+        echo("<p></p>");
+    }
+    echo($count);
 }
 
 ?>
@@ -106,8 +130,20 @@ if(isset($_POST['submit']))
 </head>
 <body>
     <h1>profile</h1>
-    <a href="/matching/index.php?logout=true">ログアウト</a>
-    <a href="/matching">トップページに戻る</a>
+    <?php
+    if($classid==-1&&getProfile("next")!=1)
+    {
+    ?>
+        <h5>参加が未設定です！クラスに参加したい場合は１番下のフォームから選択してください</h5>
+    <?php
+    }
+    if($classid==-1&&getProfile("next")==1)
+    {
+    ?>
+        <h5>クラスの編成待ちです。しばらくお待ちください。</h5>
+    <?php
+    }
+    ?>
     <h3>自分のプロフィールを入力してください</h3>
     <form method="post" autocomplete="off" class="toprofile">
         <lavel>ニックネーム：<br></lavel>

@@ -17,6 +17,11 @@ if(isset($_POST["gamesubmit"])&&$_POST['text']!="")
     header("location:/matching/game.php");
 }
 $filename='game';
+
+if($classid==-1)
+{
+    header("location:/matching/profile.php");
+}
 ?>
 <script type="text/javascript">
     var filename='<?php echo $filename ?>';

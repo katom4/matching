@@ -67,6 +67,11 @@ $classid=getProfile('classid');
 $nickname=getProfile('nickname');
 
 //echo("classid:{$classid}");
+
+
+//classidが１の人をprofileに誘導する関数
+
+
 ?>
 
 

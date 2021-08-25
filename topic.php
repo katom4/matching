@@ -75,6 +75,10 @@ if(isset($_POST["answer"]))
     }
     
 }
+if($classid==-1)
+{
+    header("location:/matching/profile.php");
+}
 ?>
 
 <script type="text/javascript">

@@ -16,6 +16,11 @@ if(isset($_POST["chatsubmit"])&&$_POST['text']!="")
     header("location:/matching/chat.php");
 }
 $filename='chat';
+
+if($classid==-1)
+{
+    header("location:/matching/profile.php");
+}
 ?>
 <script type="text/javascript">
     var filename='<?php echo $filename ?>';
