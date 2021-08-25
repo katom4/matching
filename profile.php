@@ -53,9 +53,10 @@ if(isset($_POST['submit']))
     foreach($xxx as $raw){if($raw['id']==$id){$AAA=1;}}
 
     if($AAA==0){
-        $sth = $pdo->prepare("INSERT INTO profile(id,subject,food,club,sex,occupation,nickname,next) 
+        $sth = $pdo->prepare("INSERT INTO profile(id,classid,subject,food,club,sex,occupation,nickname,next) 
         values(:id, :subject, :food, :club, :sex, :occupation, :nickname,:next)");
         $sth->bindValue(":id",$id,PDO::PARAM_INT);
+        $sth->bindValue(":classid",$classid,PDO::PARAM_INT);//base.phpで取得している
         $sth->bindValue(":subject",$subject,PDO::PARAM_STR);
         $sth->bindValue(":food",$food,PDO::PARAM_STR);
         $sth->bindValue(":club",$club,PDO::PARAM_STR);
@@ -65,9 +66,10 @@ if(isset($_POST['submit']))
         $sth->bindValue(":next",$next,PDO::PARAM_STR);
         $sth->execute();
     }else{
-        $sth = $pdo->prepare("REPLACE INTO profile(id,subject,food,club,sex,occupation,nickname,next) 
-        values(:id, :subject, :food, :club, :sex, :occupation, :nickname,:next)");
+        $sth = $pdo->prepare("REPLACE INTO profile(id,classid,subject,food,club,sex,occupation,nickname,next) 
+        values(:id, :classid,:subject, :food, :club, :sex, :occupation, :nickname,:next)");
         $sth->bindValue(":id",$id,PDO::PARAM_INT);
+        $sth->bindValue(":classid",$classid,PDO::PARAM_INT);//base.phpで取得している
         $sth->bindValue(":subject",$subject,PDO::PARAM_STR);
         $sth->bindValue(":food",$food,PDO::PARAM_STR);
         $sth->bindValue(":club",$club,PDO::PARAM_STR);
