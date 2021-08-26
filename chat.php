@@ -48,10 +48,10 @@ if($classid==-1)
 </head>
 <body>
 <h1>Chat</h1>
-    <form method="post"><!-- class="text m-1"を追加することで下に固定できる-->
+    <form method="post" autocomplete="off" class="m-2"><!-- class="text m-1"を追加することで下に固定できる-->
         <div class="input-group">
-            <input type="text" name="text" id="text" class="form-control" placeholder="テキスト">
-            <input type="submit" name="chatsubmit" onclick="OnButtonClick()" class="btn btn-success"/>
+            <input type="text" name="text" id="text" class="form-control m-1" placeholder="テキスト">
+            <input type="submit" name="chatsubmit" onclick="OnButtonClick()" class="btn btn-success m-1"/>
         </div>
     </form>
     <script type="text/javascript">
@@ -76,7 +76,7 @@ if($classid==-1)
                     <div class="row">
                         <p class="text-muted small m-0 mt-2 ml-1"><?=$nickname?></p>
                     </div>
-                    <div class="row ">
+                    <div class="row">
                         <div class="bg-light border rounded ml-1">
                             <h6 class=' my-2 mx-2 '><?=$row['text']?></h6>
                         </div>

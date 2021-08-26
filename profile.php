@@ -142,7 +142,7 @@ if(isset($_POST['submit']))
     if($classid==-1&&getProfile("next")!=1)
     {
     ?>
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-warning m-2" role="alert">
         参加が未設定です！<br>クラスに参加したい場合は１番下のフォームで「参加する」を選択してください
     </div>
     <?php
@@ -150,7 +150,7 @@ if(isset($_POST['submit']))
     if($classid==-1&&getProfile("next")==1)
     {
     ?>
-    <div class="alert alert-primary" role="alert">
+    <div class="alert alert-primary m-2" role="alert">
         クラスの編成待ちです。しばらくお待ちください
     </div>
     <?php

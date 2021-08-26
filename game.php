@@ -47,7 +47,7 @@ if($classid==-1)
 </head>
 <body>
 <h1>Game</h1>
-    <form method="post">
+    <form method="post" autocomplete="off">
         <input type="text" name="text" id="text">
         <input type="submit" name="gamesubmit" onclick="OnButtonClick()"/>
     </form>

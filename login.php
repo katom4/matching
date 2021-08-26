@@ -38,7 +38,6 @@ if(isset($_POST['login']))
       ];
 
     $userid = (int)Sentinel::getUserRepository()->findByCredentials($credentials)->id;
-    echo("ss");
     $user = Sentinel::findUserById($userid);
     if($user!=NULL)
     {
@@ -50,8 +49,20 @@ if(isset($_POST['login']))
         }
         else
         {
-            echo("d");
+            echo("
+                <div class='alert alert-warning border m-1' role='alert'>
+                入力内容が間違っています！
+                </div>
+            ");
         }
+    }
+    else
+    {
+        echo("
+                <div class='alert alert-warning border m-1' role='alert'>
+                入力内容が間違っています！
+                </div>
+            ");
     }
    
 }
@@ -65,12 +76,27 @@ if(isset($_POST['login']))
     <title>Document</title>
 </head>
 <body>
-<h1>ログイン</h1>
-<form name="login" method="post">
-        <p>email</p><input type="email" name="email">
-        <p>pass</p><input type="password" name="password">
-        <input type="submit" name='login'>
-</form>
-<a href="/matching/register.php">新規登録</a>
+<div class="text-center">
+    <h1>ログイン</h1>
+</div>
+
+<div class="border mx-2 text-center">
+    <form name="login"  method="post" autocomplete="off">
+        <div class='form-group px-2 w-75 mx-auto'>
+            <label for="email" class="form-label">email</label>
+            <input type="email" name="email"  class="form-control" id="email">
+        </div>
+        
+        <div class='form-group px-2 w-75 mx-auto'>
+            <label for="pass" class="form-label">password</label>
+            <input type="password" name="password" class="form-control" id="password">
+        </div>
+        <div class="px-2">
+            <a href="/matching/register.php" class="mx-2">新規登録はこちら</a>
+            <input type="submit" name='login' class="btn btn-success mx-4" value="ログイン">
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

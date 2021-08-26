@@ -116,14 +116,14 @@ if($classid==-1)
 ?>
     <!--topic専用入力フォーム-->
     <p>＊クラスで課題が完了した方は下記のフォームに入力をお願いします</p>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" autocomplete="off" enctype="multipart/form-data">
         <input type="text" name="text">
         <input type="file" name="upfile">
         <input type="submit" name="answer">
     </form>
     <p>＊ここまでが課題提出フォームです</p>
 
-    <form method="post">
+    <form method="post" autocomplete="off">
         <input type="text" name="text" id="text">
         <input type="submit" name="topicsubmit" onclick="OnButtonClick()"/>
     </form>
