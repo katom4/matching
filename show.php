@@ -78,7 +78,7 @@ $text=$sth->fetch()[0];
     $stmt->bindValue(":season",$_SESSION['season'],PDO::PARAM_INT);
     $stmt -> execute();
     while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)){
-        echo("<div class='m-1 p-1 border border-success'>");
+        echo("<div class='m-1 p-1 border border-success' style='white-space:pre-wrap;'>");
         echo ($row["text"]."<br>");
         //動画と画像で場合分け
         $target = $row["fname"];

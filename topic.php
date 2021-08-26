@@ -115,13 +115,23 @@ if($classid==-1)
     echo("<h2>今回のトピックは「{$topic}」</h2>");
 ?>
     <!--topic専用入力フォーム-->
-    <p>＊クラスで課題が完了した方は下記のフォームに入力をお願いします</p>
-    <form method="post" autocomplete="off" enctype="multipart/form-data">
-        <input type="text" name="text">
-        <input type="file" name="upfile">
-        <input type="submit" name="answer">
-    </form>
-    <p>＊ここまでが課題提出フォームです</p>
+    <div class="border-top border-bottom mb-2 p-2">
+        <p>＊クラスで課題が完了した方は下記のフォームに入力をお願いします</p>
+        <form method="post" autocomplete="off" class="form-inline" enctype="multipart/form-data">
+        
+            <textarea  name="text" class="form-control w-100"  rows="9"></textarea> 
+        
+            <div class="custom-file mt-3 w-75">
+                <input type="file" name="upfile" class="custom-file-input" id="inputFile">
+                <label class="custom-file-label" for="inputFile" data-browse="ファイル">ファイルを選択してください</label>
+            </div>
+
+            <div class="ml-auto">
+                <input type="submit" name="answer" class="btn btn-primary mt-3">
+            </div>
+            
+        </form>
+    </div>
 
     <form method="post" autocomplete="off">
         <input type="text" name="text" id="text">
@@ -149,5 +159,9 @@ if($classid==-1)
             }
         ?>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script>
+    bsCustomFileInput.init();
+    </script>
 </body>
 </html>

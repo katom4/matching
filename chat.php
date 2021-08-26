@@ -28,6 +28,7 @@ if(isset($_POST["chatsubmit"])&&$_POST['text']!="")
 }
 $filename='chat';
 
+
 if($classid==-1)
 {
     header("location:/matching/profile.php");

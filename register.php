@@ -3,6 +3,7 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 // Include the composer autoload file
 include("sentinelconfig.php");
+include("base.php");
 require 'vendor/autoload.php';
 
 session_start();
@@ -25,8 +26,10 @@ if(isset($_POST['register']))
     
     $email = $_POST['email'];
     $a=['email'=>$email,];
+
+    if($email=='')$regerror=1;
     
-    if(Sentinel::findByCredentials($a)==NULL)
+    if(Sentinel::findByCredentials($a)==NULL&&$regerror!=1)
     {
         $urltoken = hash('sha256',uniqid(rand(),true));
         $url = "http://localhost/matching/signup.php?urltoken=".$urltoken;
@@ -81,7 +84,7 @@ if(isset($_POST['register']))
         header("location:/matching");*/
         
     }
-    else
+    else if($regerror!=1)
     {
         $regerror=2;
     }
@@ -100,18 +103,31 @@ if(isset($_POST['register']))
     <title>Document</title>
 </head>
 <body>
-    <h1>新規登録</h1>
+    <div class="text-center">
+        <h1>新規登録</h1>
+    </div>
     <?php if($regerror==1){?>
-    <h2>未入力の部分があります</h2>
+    <div class="alert alert-warning m-2" role="alert">
+        入力に不備があります
+    </div>
     <?php } else if($regerror==2){?>
-    <h2>すでに使われているメールアドレスです</h2>
+    <div class="alert alert-warning m-2" role="alert">
+        すでに使われているメールアドレスです
+    </div>
     <?php } ?>
-    <form name="register" method="post">
-        <p>email</p><input type="email" name="email">
-        <input type="hidden" name="token" value="<?=$_SESSION['token']?>">
-        <input type="submit" name='register'>
-    </form>
-    <a href="/matching/login.php">アカウント作成済みの方</a>
+    <div class="border mx-2 text-center">
+        <form name="register" method="post" autocomplete="off">
+            <div class='form-group px-2 w-75 mx-auto'>
+                <label for="email" class="form-label">email</label>
+                <input type="email" name="email"  class="form-control" id="email">
+            </div>
+            <input type="hidden" name="token" value="<?=$_SESSION['token']?>">
+            <div class="px-2">
+                <a href="/matching/login.php" class="mx-2">アカウント作成済みの方</a>
+                <input type="submit" name='register' class="btn btn-success mx-4" value="登録">
+            </div>
+        </form>
+    </div>
 <?php
 
 
