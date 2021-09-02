@@ -43,7 +43,7 @@ $text=$sth->fetch()[0];
     <link rel="stylesheet" href="chat.css">
 </head>
 <body>
-<h1>SHOW</h1>
+<h1>発表ページ</h1>
 <div class="p-1 text-center">
     <h4><?=$text?></h4>
 </div>

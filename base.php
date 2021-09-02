@@ -100,7 +100,7 @@ var classid='<?php echo $classid; ?>';
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-light cbg-green sticky-top fixed-top">
-        <a class="navbar-brand" href="/matching">Matching</a>
+        <a class="navbar-brand font-weight-bold" href="/matching">えんえんかうんと</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -109,16 +109,16 @@ var classid='<?php echo $classid; ?>';
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle bg-green" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Talks
+                        チャット
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="/matching/chat.php">chat</a></li>
+                        <li><a class="dropdown-item" href="/matching/chat.php">free</a></li>
                         <li><a class="dropdown-item" href="/matching/game.php">game</a></li>
                         <li><a class="dropdown-item" href="/matching/topic.php">topic</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/matching/show.php">show</a>
+                    <a class="nav-link" href="/matching/show.php">発表</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

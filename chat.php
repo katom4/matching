@@ -48,7 +48,7 @@ if($classid==-1)
     <title>Document</title>
 </head>
 <body>
-<h1>Chat</h1>
+<h1>free</h1>
     <form method="post" autocomplete="off" class="m-2"><!-- class="text m-1"を追加することで下に固定できる-->
         <div class="input-group">
             <input type="text" name="text" id="text" class="form-control m-1" placeholder="テキスト">
@@ -58,7 +58,7 @@ if($classid==-1)
     <script type="text/javascript">
         
     </script>
-    <div class="pb-5 mb-5">
+    <div class="pb-5 mb-5 mx-2">
         <?php
             //チャットの表示部分
             $classid=getProfile('classid');
