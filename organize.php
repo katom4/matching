@@ -46,26 +46,30 @@ function organize()
     $c->bindValue(":n",1,PDO::PARAM_INT);
     $c -> execute();
 
+    $m = $pdo ->prepare("SELECT max(classid) AS max FROM profile");
+    $m->execute();
+    $max=$m->fetch()['max']+1;//クラス編成の時に、最大値+1を足すことでクラスがどんどん増えていく形にする
+
     $count=$c->fetch()['num'];//変更する人の総数
     $classes = array();
     for($i=0 ;$i<$count ;$i++)
     {
-        $classes[$i] = (int)($i/4);
+        $classes[$i] = (int)($i/4)+$max;
     }
     if($count % 4 ==1&&$count>3)
     {
-        $classes[$count-1] = 0;
+        $classes[$count-1] = 0+$max;
     }
     else if($count % 4 ==2)
     {
-        $classes[$count-1] = 0;
-        $classes[$count-2] = 1;
+        $classes[$count-1] = 0+$max;
+        $classes[$count-2] = 1+$max;
     }
     if($count==6)//六人の時だけ特殊な並び替え
     {
-        $classes[$count-1] = 1;
-        $classes[$count-2] = 1;
-        $classes[$count-3] = 1;
+        $classes[$count-1] = 1+$max;
+        $classes[$count-2] = 1+$max;
+        $classes[$count-3] = 1+$max;
     }
     shuffle($classes);
     $ccount=0;//変更する人を数える変数、$classesの適切な取得に必要
