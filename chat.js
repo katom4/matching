@@ -34,7 +34,8 @@ conn.onmessage = function(e) {
   {
     if(onclass==true)
     {
-      addChat(e.data,'h3');
+      makeChatDiv();
+      addChat(e.data,'h6');
     }
   }
   if(count==4)
@@ -93,9 +94,48 @@ function a(){
 
 function addChat(text,tag)
 {
-  var chat = document.createElement(tag);
+  if(tag=="h6")
+  {
+    var divParent=document.getElementById('new');
+    var div1=document.createElement('div');
+    div1.setAttribute("class","row");
+    var div2=document.createElement('div');
+    div2.setAttribute("class","bg-light border rounded ml-1");
+    var content=document.createElement(tag);
+    content.setAttribute("class","my-2 mx-2");
+    content.innerHTML=text;
+    div2.prepend(content);
+    div1.prepend(div2);
+    divParent.prepend(div1);
+    //divParent.appendChild(div1);
+  }
+  if(tag=="p")
+  {
+    var divParent=document.getElementById('new');
+    var div1=document.createElement('div');
+    div1.setAttribute("class","row");
+    var content=document.createElement(tag);
+    content.setAttribute("class","text-muted small m-0 mt-2 ml-1");
+    content.innerHTML=text;
+    div1.prepend(content);
+    divParent.prepend(div1);
+    //divParent.appendChild(div1);
+    var n=document.createElement('div');
+    n.setAttribute("class","container-fluid mt-2");
+    n.setAttribute("id","new");
+  }
+  /*var chat = document.createElement(tag);
   chat.className= "chatChild";
   chat.innerHTML = text;
   var parent = document.getElementById('chat');//親要素の取得
-  parent.prepend(chat);
+  parent.prepend(chat);*/
+}
+
+function makeChatDiv()
+{
+  var div=document.createElement('div');
+  div.setAttribute("class","container-fluid mt-2");
+  div.setAttribute("id","new");
+  var pa=document.getElementById('pa');
+  pa.prepend(div);
 }

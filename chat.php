@@ -55,10 +55,8 @@ if($classid==-1)
             <input type="submit" name="chatsubmit" onclick="OnButtonClick()" class="btn btn-success m-1"/>
         </div>
     </form>
-    <script type="text/javascript">
-        
-    </script>
-    <div class="pb-5 mb-5 mx-2">
+    
+    <div class="pb-5 mb-5 mx-2" id="pa">
         <?php
             //チャットの表示部分
             $classid=getProfile('classid');
@@ -84,8 +82,12 @@ if($classid==-1)
                     </div>
                 </div>
                 
+                
       <?php }
         ?>
+        <div id="new">
+
+        </div>
     </div>
 </body>
 </html>
