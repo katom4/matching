@@ -45,6 +45,7 @@ if($classid==-1)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Document</title>
 </head>
 <body>
@@ -64,17 +65,24 @@ if($classid==-1)
             $sth = $pdo->prepare("SELECT * from chat where classid = :classid order by id desc");
             $sth ->bindValue(":classid",$classid,PDO::PARAM_STR);
             $sth->execute();
-            foreach($sth as $row)
+            foreach($sth as $index => $row)
             {
                 $sth = $pdo->prepare("SELECT nickname from profile where id = :userid");
                 $sth ->bindValue(":userid",$row['userid'],PDO::PARAM_INT);
                 $sth->execute();
                 $nickname = $sth->fetch()['nickname'];
+                $userid=$row['userid'];
         ?>
+        <script type="text/javascript">
+            var selUserid='<?php echo $userid; ?>';
+        </script>
                 <div class="container-fluid mt-2">
-                    <div class="row">
-                        <p class="text-muted small m-0 mt-2 ml-1"><?=$nickname?></p>
-                    </div>
+                        <div class="row">
+                            <form onclick="javascript:<?php echo('us'.$index)?>.submit()" name="<?php echo('us'.$index)?>" action="/matching/introduction.php" method="post" class="p-0 m-0">
+                                <p class="text-muted small m-0 mt-2 ml-1 yubi"><?=$nickname?></p>
+                                <input type="hidden" value="<?=$userid?>" name="n">
+                            </form>
+                        </div>
                     <div class="row">
                         <div class="bg-light border rounded ml-1">
                             <h6 class=' my-2 mx-2 '><?=$row['text']?></h6>
@@ -85,9 +93,7 @@ if($classid==-1)
                 
       <?php }
         ?>
-        <div id="new">
-
-        </div>
+        
     </div>
 </body>
 </html>

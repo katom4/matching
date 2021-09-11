@@ -44,6 +44,7 @@ if ($user = Sentinel::getUser())
 else{header("location:/matching/login.php");}
 
 
+
 if(isset($_POST['submit']))
 {
     $id=$user->id;
@@ -231,5 +232,8 @@ if(isset($_POST['submit']))
             <input type="submit" name="submit" class="btn btn-primary"></input>
         </div>
     </form>
+    <div class="p-2">
+        <div>ニックネーム:<?=$info['nickname']?></div>
+    </div>
 </body>
 </html>

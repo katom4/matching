@@ -3,12 +3,17 @@ conn.onopen = function(e) {
     console.log("Connection established!");
 };
 var onclass = new Boolean(false);
-var count=0;
+var count=-1;
 var nickname;
 var per=false;
+var selUserid;
 conn.onmessage = function(e) {
   count+=1;//一回目に送られてきたclassidと今のアカウントのclassidを比較している
   //classidはindex.phpで定義している
+  if(count==0)
+  {
+    selUserid=e.data;
+  }
   if(count==1)
   {
     if(e.data==filename)
@@ -17,7 +22,7 @@ conn.onmessage = function(e) {
     }
     else
     {
-      count=-3;
+      count=-4;
     }
   }
   if(count==2&&classid===e.data&&per!=true)//classidはbase.phpで定義している
@@ -35,17 +40,17 @@ conn.onmessage = function(e) {
     if(onclass==true)
     {
       makeChatDiv();
-      addChat(e.data,'h6');
+      addChat(e.data,'h6',selUserid);
     }
   }
   if(count==4)
   {
     if(onclass==true)
     {
-      addChat(e.data,'p');//nickname
+      addChat(e.data,'p',selUserid);//nickname
       onclass=false;
     }
-    count=0;
+    count=-1;
     per=false;
   }
   
@@ -74,6 +79,7 @@ function OnButtonClick(){
   if(text != "")//textの中身チェック
   {
     console.log(text);
+    conn.send(userid);
     conn.send(filename);
     if(filename=='person')
     {
@@ -86,13 +92,14 @@ function OnButtonClick(){
     }
     conn.send(text);
     conn.send(nickname);
+    
   }
 }
 function a(){
   document.write("a");
 }
 
-function addChat(text,tag)
+function addChat(text,tag,sel)
 {
   if(tag=="h6")
   {
@@ -112,17 +119,39 @@ function addChat(text,tag)
   if(tag=="p")
   {
     var divParent=document.getElementById('new');
+    //formの設定
+    var ulElement = document.getElementById("pa");
+    var childCount=ulElement.childElementCount;
+    var form=document.createElement('form');
+    form.setAttribute("onclick","javascript:us"+String(count)+".submit()");
+    form.setAttribute("name","us"+String(childCount));
+    form.setAttribute("action","/matching/introduction.php");
+    form.setAttribute("method","post");
+    form.setAttribute("class","p-0 m-0");
+
     var div1=document.createElement('div');
     div1.setAttribute("class","row");
+
     var content=document.createElement(tag);
-    content.setAttribute("class","text-muted small m-0 mt-2 ml-1");
+    content.setAttribute("class","text-muted small m-0 mt-2 ml-1 yubi");
     content.innerHTML=text;
+
     div1.prepend(content);
-    divParent.prepend(div1);
+
+    var input=document.createElement("input")
+    input.setAttribute("type","hidden");
+    input.setAttribute("value",sel);
+    input.setAttribute("name","n");
+
+    form.prepend(div1);
+    form.prepend(input);
+
+    divParent.prepend(form);
     //divParent.appendChild(div1);
     var n=document.createElement('div');
     n.setAttribute("class","container-fluid mt-2");
     n.setAttribute("id","new");
+    
   }
   /*var chat = document.createElement(tag);
   chat.className= "chatChild";
