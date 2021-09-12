@@ -43,55 +43,57 @@ $text=$sth->fetch()[0];
     <link rel="stylesheet" href="chat.css">
 </head>
 <body>
-<h1>発表ページ</h1>
-<div class="p-1 text-center">
-    <h4><?=$text?></h4>
-</div>
+    <div class="p-1">
+        <h1>発表ページ</h1>
+        <div class="p-1 text-center">
+            <h4><?=$text?></h4>
+        </div>
 
-<form method="post">
-<?php
-    for($i=$_SESSION['season']+2;$i>0;$i--)
-    {
-        if($i>$max)continue;
-        if($i==$selSeason){
-?>
+        <form method="post">
+        <?php
+            for($i=$_SESSION['season']+2;$i>0;$i--)
+            {
+                if($i>$max)continue;
+                if($i==$selSeason){
+        ?>
 
-    <input type="submit" name="selSeason" value="<?= $i?>" class="btn btn-success w20" disabled>
-<?php
-        }
-        else
-        {
-?>
-    
-    <input type="submit" name="selSeason" value="<?= $i?>" class="btn btn-success w20">
-<?php
-        }
-        if($i<=$_SESSION['season']-2)break;
-    }
-?>
-</form>
-<div class="ontainer">
-    <?php
-    //DBから取得して表示する.
-    $sql = "SELECT * FROM answer where season=:season ORDER BY id;";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(":season",$_SESSION['season'],PDO::PARAM_INT);
-    $stmt -> execute();
-    while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)){
-        echo("<div class='p-3 border-bottom border-success' style='white-space:pre-wrap;'>");
-        echo ($row["text"]."<br>");
-        //動画と画像で場合分け
-        $target = $row["fname"];
-        if($row["extension"] == "mp4"){
-            echo ("<video src=\"import_answer.php?target=$target\" width=\"426\" height=\"240\" controls></video>");
-        }
-        elseif($row["extension"] == "jpeg" || $row["extension"] == "png" || $row["extension"] == "gif"){
-            echo ("<img src='import_answer.php?target=$target '>");
-        }
-        echo ("<br/><br/>");
-        echo("</div>");
-    }
-    ?>
+            <input type="submit" name="selSeason" value="<?= $i?>" class="btn btn-success w20" disabled>
+        <?php
+                }
+                else
+                {
+        ?>
+            
+            <input type="submit" name="selSeason" value="<?= $i?>" class="btn btn-success w20">
+        <?php
+                }
+                if($i<=$_SESSION['season']-2)break;
+            }
+        ?>
+        </form>
+        <div class="ontainer">
+            <?php
+            //DBから取得して表示する.
+            $sql = "SELECT * FROM answer where season=:season ORDER BY id;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(":season",$_SESSION['season'],PDO::PARAM_INT);
+            $stmt -> execute();
+            while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)){
+                echo("<div class='p-3 border-bottom border-success' style='white-space:pre-wrap;'>");
+                echo ($row["text"]."<br>");
+                //動画と画像で場合分け
+                $target = $row["fname"];
+                if($row["extension"] == "mp4"){
+                    echo ("<video src=\"import_answer.php?target=$target\" width=\"426\" height=\"240\" controls></video>");
+                }
+                elseif($row["extension"] == "jpeg" || $row["extension"] == "png" || $row["extension"] == "gif"){
+                    echo ("<img src='import_answer.php?target=$target '>");
+                }
+                echo ("<br/><br/>");
+                echo("</div>");
+            }
+            ?>
+        </div>
 </div>
 </body>
 </html>
