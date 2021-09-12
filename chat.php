@@ -49,51 +49,52 @@ if($classid==-1)
     <title>Document</title>
 </head>
 <body>
-<h1>free</h1>
-    <form method="post" autocomplete="off" class="m-2"><!-- class="text m-1"を追加することで下に固定できる-->
-        <div class="input-group">
-            <input type="text" name="text" id="text" class="form-control m-1" placeholder="テキスト">
-            <input type="submit" name="chatsubmit" onclick="OnButtonClick()" class="btn btn-success m-1"/>
-        </div>
-    </form>
-    
-    <div class="pb-5 mb-5 mx-2" id="pa">
-        <?php
-            //チャットの表示部分
-            $classid=getProfile('classid');
-            $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            $sth = $pdo->prepare("SELECT * from chat where classid = :classid order by id desc");
-            $sth ->bindValue(":classid",$classid,PDO::PARAM_STR);
-            $sth->execute();
-            foreach($sth as $index => $row)
-            {
-                $sth = $pdo->prepare("SELECT nickname from profile where id = :userid");
-                $sth ->bindValue(":userid",$row['userid'],PDO::PARAM_INT);
-                $sth->execute();
-                $nickname = $sth->fetch()['nickname'];
-                $userid=$row['userid'];
-        ?>
-        <script type="text/javascript">
-            var selUserid='<?php echo $userid; ?>';
-        </script>
-                <div class="container-fluid mt-2">
-                        <div class="row">
-                            <form onclick="javascript:<?php echo('us'.$index)?>.submit()" name="<?php echo('us'.$index)?>" action="/matching/introduction.php" method="post" class="p-0 m-0">
-                                <p class="text-muted small m-0 mt-2 ml-1 yubi"><?=$nickname?></p>
-                                <input type="hidden" value="<?=$userid?>" name="n">
-                            </form>
-                        </div>
-                    <div class="row">
-                        <div class="bg-light border rounded ml-1">
-                            <h6 class=' my-2 mx-2 '><?=$row['text']?></h6>
-                        </div>
-                    </div>
+    <div class="p-1">
+        <h1>free</h1>
+            <form method="post" autocomplete="off" class="m-2"><!-- class="text m-1"を追加することで下に固定できる-->
+                <div class="input-group">
+                    <input type="text" name="text" id="text" class="form-control m-1" placeholder="テキスト">
+                    <input type="submit" name="chatsubmit" onclick="OnButtonClick()" class="btn btn-success m-1"/>
                 </div>
-                
-                
-      <?php }
-        ?>
-        
+            </form>
+            <div class="pb-5 mb-5 mx-1" id="pa">
+                <?php
+                    //チャットの表示部分
+                    $classid=getProfile('classid');
+                    $pdo=new PDO("mysql:host=localhost;dbname=sentinel;charset=utf8","sentineluser","pass", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                    $sth = $pdo->prepare("SELECT * from chat where classid = :classid order by id desc");
+                    $sth ->bindValue(":classid",$classid,PDO::PARAM_STR);
+                    $sth->execute();
+                    foreach($sth as $index => $row)
+                    {
+                        $sth = $pdo->prepare("SELECT nickname from profile where id = :userid");
+                        $sth ->bindValue(":userid",$row['userid'],PDO::PARAM_INT);
+                        $sth->execute();
+                        $nickname = $sth->fetch()['nickname'];
+                        $userid=$row['userid'];
+                ?>
+                <script type="text/javascript">
+                    var selUserid='<?php echo $userid; ?>';
+                </script>
+                        <div class="container-fluid mt-2">
+                                <div class="row">
+                                    <form onclick="javascript:<?php echo('us'.$index)?>.submit()" name="<?php echo('us'.$index)?>" action="/matching/team.php" method="post" class="p-0 m-0">
+                                        <p class="text-muted small m-0 mt-2 ml-1 yubi"><?=$nickname?></p>
+                                        <input type="hidden" value="<?=$userid?>" name="n">
+                                    </form>
+                                </div>
+                            <div class="row">
+                                <div class="bg-light border rounded ml-1">
+                                    <h6 class=' my-2 mx-2 '><?=$row['text']?></h6>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+            <?php }
+                ?>
+            
+        </div>
     </div>
 </body>
 </html>

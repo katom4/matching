@@ -80,7 +80,7 @@ if(isset($_POST['login']))
     <h1>ログイン</h1>
 </div>
 
-<div class="border mx-2 text-center">
+<div class="border mx-2 text-center mx-auto w-75">
     <form name="login"  method="post" autocomplete="off">
         <div class='form-group px-2 w-75 mx-auto'>
             <label for="email" class="form-label">email</label>

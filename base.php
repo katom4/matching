@@ -59,11 +59,8 @@ function getProfile($e)
     header("location:/matching");
 }*/
 
-//権限者のクラス編成用のページリンクを表示
-if(Sentinel::getUser()->email=="kanri@kanri.com")
-{
-    echo('<a href="/matching/organize.php">クラス編成</a>');
-}
+
+
 
 //jsにclassidの値を渡す（チャットをクラスごとに同期するようにするため）
 $classid=getProfile('classid');
@@ -121,6 +118,15 @@ var userid='<?php echo $userid; ?>';
                 <li class="nav-item">
                     <a class="nav-link" href="/matching/show.php">発表</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/matching/team.php">メンバー</a>
+                </li>
+                <?php //管理者用のリンク
+                if(Sentinel::getUser()->email=="kanri@kanri.com"){?>
+                <li class="nav-item">
+                    <a class="nav-link" href="/matching/organize.php">クラス編成</a>
+                </li>
+                <?php } ?>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">

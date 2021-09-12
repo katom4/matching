@@ -125,7 +125,7 @@ function addChat(text,tag,sel)
     var form=document.createElement('form');
     form.setAttribute("onclick","javascript:us"+String(count)+".submit()");
     form.setAttribute("name","us"+String(childCount));
-    form.setAttribute("action","/matching/introduction.php");
+    form.setAttribute("action","/matching/team.php");
     form.setAttribute("method","post");
     form.setAttribute("class","p-0 m-0");
 
