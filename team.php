@@ -52,8 +52,10 @@ else
         <div>
             <div class="p-3">
                 <div class="mb-2">
-                    <div>ニックネーム　</div>
-                    <div><?=$row['nickname']?></div>
+                    <form name="<?php echo('us'.$row['id'])?>" action="/matching/team.php" method="post" class="p-0 m-0">
+                        <a href="javascript:<?php echo('us'.$row['id'])?>.submit()"><?=$row['nickname']?></a>
+                        <input type="hidden" value="<?=$row['id']?>" name="n">
+                    </form>
                 </div>
             </div>
         </div>
@@ -68,7 +70,9 @@ else
         <div class="p-3">
             <div class="mb-2">
                 <div>ニックネーム　</div>
-                <div><?=$info['nickname']?></div>
+                <div>
+                    <?=$info['nickname']?>
+                </div>
                 <div><a href="">メンバー一覧</a></div>
             </div>
         </div>
